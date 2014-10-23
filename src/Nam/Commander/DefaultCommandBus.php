@@ -13,7 +13,7 @@ use Nam\Commander\Inflectors\CommandInflector;
  * @package Mbibi\Core\Commands
  *
  */
-class DefaultCommandBus
+class DefaultCommandBus implements CommandBus
 {
 
     /**
