@@ -107,7 +107,7 @@ class CommanderMakeCommand extends Command
      */
     protected function getOptions()
     {
-        $artisanConfig = \App::make('config')->get(package_namespace() . '::artisan');
+        $config = \App::make('config')->get('commander::artisan');
 
         return [
             [
@@ -122,7 +122,7 @@ class CommanderMakeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The path to where your domain root is located.',
-                $artisanConfig['base']
+                $config['base']
             ]
         ];
     }
