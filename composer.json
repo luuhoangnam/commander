@@ -1,6 +1,7 @@
 {
     "name": "nam/commander",
     "description": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nam Hoang Luu",
