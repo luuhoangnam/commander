@@ -16,7 +16,7 @@ interface CommandHandler
      * @param BaseCommand $command
      *
      * @throws InvalidCommandException
-     * @return User
+     * @return mixed
      */
     public function handle(BaseCommand $command);
 }
