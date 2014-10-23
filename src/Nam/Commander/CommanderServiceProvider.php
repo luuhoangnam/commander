@@ -39,7 +39,7 @@ class CommanderServiceProvider extends ServiceProvider
         return [ ];
     }
 
-	private function bindInflectors()
+    private function bindInflectors()
 	{
 		$this->app->bind(
 			'Nam\Commander\Inflectors\CommandInflector',
