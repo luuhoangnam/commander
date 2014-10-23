@@ -66,9 +66,6 @@ trait CommanderTrait
      */
     protected function getCommandBus()
     {
-        /** @var CommandBus $commandBus */
-        $commandBus = App::make('Nam\Commander\CommandBus');
-
-        return $commandBus;
+        return App::make('Nam\Commander\CommandBus');
     }
 }
