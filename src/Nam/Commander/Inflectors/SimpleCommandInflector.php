@@ -1,8 +1,10 @@
 <?php
 
 
-namespace Nam\Commander;
+namespace Nam\Commander\Inflectors;
 
+use Nam\Commander\BaseCommand;
+use Nam\Commander\CommandHandler;
 use Nam\Commander\Exceptions\HandlerNotRegisteredException;
 use ReflectionClass;
 

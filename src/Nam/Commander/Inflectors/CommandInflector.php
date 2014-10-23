@@ -1,7 +1,9 @@
 <?php
 
 
-namespace Nam\Commander;
+namespace Nam\Commander\Inflectors;
+
+use Nam\Commander\BaseCommand;
 
 /**
  * Interface CommandInflector
