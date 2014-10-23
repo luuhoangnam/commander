@@ -15,6 +15,10 @@ class CommanderServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->package('nam/commander');
+
+        $this->bootArtisanCommand();
+
+        $this->bootEventListeners();
     }
 
     /**
@@ -27,8 +31,6 @@ class CommanderServiceProvider extends ServiceProvider
         $this->bindInflectors();
 
         $this->bindCommandBus();
-
-        $this->registerArtisanCommand();
     }
 
     /**
@@ -56,13 +58,22 @@ class CommanderServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerArtisanCommand()
+    protected function bootArtisanCommand()
     {
         $this->app->bindShared('commander.command.make', function ($app) {
-            return $app->make('Mbibi\Core\Console\CommanderMakeCommand');
+            return $app->make('Nam\Commander\Console\CommanderMakeCommand');
         });
 
         $this->commands('commander.command.make');
+    }
+
+    protected function bootEventListeners()
+    {
+        $listeners = $this->app['config']['commander::event.listeners'];
+
+        foreach ($listeners as $listener) {
+            $this->app['events']->listen('Mbibi.Core.Commands.Events.*', $listener);
+        }
     }
 
 }
