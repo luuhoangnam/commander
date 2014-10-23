@@ -2,7 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class CommanderServiceProvider extends ServiceProvider {
+class CommanderServiceProvider extends ServiceProvider
+{
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -28,7 +29,7 @@ class CommanderServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return [ ];
 	}
 
 }
