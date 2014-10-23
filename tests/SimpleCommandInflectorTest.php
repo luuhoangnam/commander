@@ -1,6 +1,8 @@
 <?php
 
-use Nam\Commander\SimpleCommandInflector;
+use TestCommands\BarCommand;
+use TestCommands\FooCommand;
+use Nam\Commander\Inflectors\SimpleCommandInflector;
 
 
 /**
@@ -20,19 +22,25 @@ class SimpleCommandInflectorTest extends PHPUnit_Framework_TestCase
         $inflector = new SimpleCommandInflector;
 
         // act
-        $handler = $inflector->getCommandHandler($command);
+        $result = $inflector->getCommandHandler($command);
 
         // assert
-        $this->assertEquals('\Handlers\FooCommandHandler', $handler);
+        $this->assertEquals("TestCommands\\Handlers\\FooCommandHandler", $result);
     }
-}
 
-/**
- * Class FooCommand
- */
-/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-/** @noinspection PhpUndefinedClassInspection */
-class FooCommand extends Nam\Commander\BaseCommand
-{
+    /**
+     * @expectedException \Nam\Commander\Exceptions\HandlerNotRegisteredException
+     */
+    public function test_it_should_throw_exception_when_handler_class_does_not_exist()
+    {
+        // prepare
+        $command = new BarCommand;
+        $inflector = new SimpleCommandInflector;
 
+        // act
+        $inflector->getCommandHandler($command);
+
+        // assert
+
+    }
 }

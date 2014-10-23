@@ -18,6 +18,9 @@
     "autoload": {
         "psr-0": {
             "Nam\\Commander": "src/"
+        },
+        "psr-4": {
+            "TestCommands\\": "tests/TestCommands/"
         }
     },
     "minimum-stability": "stable"
