@@ -1,0 +1,38 @@
+<?php
+
+namespace {{ namespace }};
+
+
+use Nam\Commander\BaseCommand;
+
+
+/**
+ * Class {{ name }}
+ *
+ * @author  Nam Hoang Luu <nam@mbearvn.com>
+ * @package Mbibi\Core\Commands
+ *
+ */
+class {{ name }} extends BaseCommand
+{
+
+    {{# properties }}
+    /**
+     * @var string
+     */
+    private ${{ . }};
+
+    {{/ properties}}
+    /**
+     {{# properties }}
+     * @param string ${{ . }}
+     {{/ properties }}
+     */
+    public function __construct({{ arguments }})
+    {
+        {{# properties}}
+        $this->{{ . }} = ${{ . }};
+        {{/ properties}}
+    }
+
+}

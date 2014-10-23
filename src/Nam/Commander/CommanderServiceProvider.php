@@ -24,9 +24,11 @@ class CommanderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-	    $this->bindInflectors();
+        $this->bindInflectors();
 
-	    $this->bindCommandBus();
+        $this->bindCommandBus();
+
+        $this->registerArtisanCommand();
     }
 
     /**
@@ -40,18 +42,27 @@ class CommanderServiceProvider extends ServiceProvider
     }
 
     private function bindInflectors()
-	{
-		$this->app->bind(
-			'Nam\Commander\Inflectors\CommandInflector',
-			'Nam\Commander\Inflectors\SimpleCommandInflector'
-		);
-	}
+    {
+        $this->app->bind(
+            'Nam\Commander\Inflectors\CommandInflector',
+            'Nam\Commander\Inflectors\SimpleCommandInflector'
+        );
+    }
 
-	private function bindCommandBus()
-	{
-		$this->app->bindShared('Nam\Commander\CommandBus', function ($app) {
-			return $app->make('Nam\Commander\DefaultCommandBus');
-		});
-	}
+    private function bindCommandBus()
+    {
+        $this->app->bindShared('Nam\Commander\CommandBus', function ($app) {
+            return $app->make('Nam\Commander\DefaultCommandBus');
+        });
+    }
+
+    protected function registerArtisanCommand()
+    {
+        $this->app->bindShared('commander.command.make', function ($app) {
+            return $app->make('Mbibi\Core\Console\CommanderMakeCommand');
+        });
+
+        $this->commands('commander.command.make');
+    }
 
 }

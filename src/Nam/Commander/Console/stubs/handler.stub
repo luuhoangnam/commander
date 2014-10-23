@@ -1,0 +1,33 @@
+<?php
+
+{{# namespace}}
+namespace {{ namespace }};
+{{/ namespace}}
+
+
+use Nam\Commander\BaseCommand;
+use Nam\Commander\BaseCommandHandler;
+use Nam\Commander\Exceptions\InvalidCommandException;
+
+/**
+ * Class {{ name }}
+ *
+ * @author  Nam Hoang Luu <nam@mbearvn.com>
+ * @package Mbibi\Core\Commands
+ *
+ */
+class {{ name }} extends BaseCommandHandler
+{
+
+    /**
+     * @param BaseCommand $command
+     *
+     * @throws InvalidCommandException
+     * @return mixed
+     */
+    public function handle(BaseCommand $command)
+    {
+        // Something here
+    }
+
+}
