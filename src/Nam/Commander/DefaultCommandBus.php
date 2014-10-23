@@ -3,6 +3,7 @@
 namespace Nam\Commander;
 
 use Illuminate\Foundation\Application;
+use Nam\Commander\Inflectors\CommandInflector;
 
 
 /**
