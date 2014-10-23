@@ -1,0 +1,24 @@
+{
+    "name": "nam/commander",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nam Hoang Luu",
+            "email": "nam@mbearvn.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.3",
+        "mockery/mockery": "~0.9"
+    },
+    "autoload": {
+        "psr-0": {
+            "Nam\\Commander": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
