@@ -23,7 +23,7 @@ class DefaultCommandBusTest extends PHPUnit_Framework_TestCase
 
         $app = Mockery::mock('Illuminate\Foundation\Application');
         $app->shouldReceive('make')->once()->with($commandHandler->mockery_getName())->andReturn($commandHandler);
-        
+
         $commandBus = new DefaultCommandBus($app, $commandInflector);
 
         // act
