@@ -5,6 +5,7 @@ namespace Nam\Commander;
 
 use App;
 use Nam\Commander\Events\Contracts\Dispatcher;
+use Nam\Commander\Exceptions\InvalidCommandArgumentException;
 
 
 /**
@@ -67,5 +68,20 @@ abstract class BaseCommandHandler implements CommandHandler
     public function setDispatcher(Dispatcher $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @param BaseCommand $command
+     */
+    protected function checkValidCommand(BaseCommand $command)
+    {
+        $handlerClassName = get_class($this);
+        $commandClassName = get_class($command);
+
+        $handlerName = substr($handlerClassName, 0, strlen($handlerClassName) - 7);
+
+        if ($handlerName !== $commandClassName) {
+            throw new InvalidCommandArgumentException($command);
+        }
     }
 }
