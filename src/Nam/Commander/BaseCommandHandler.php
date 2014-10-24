@@ -6,6 +6,7 @@ namespace Nam\Commander;
 use App;
 use Nam\Commander\Events\Contracts\Dispatcher;
 use Nam\Commander\Exceptions\InvalidCommandArgumentException;
+use ReflectionClass;
 
 
 /**
@@ -75,13 +76,51 @@ abstract class BaseCommandHandler implements CommandHandler
      */
     protected function checkValidCommand(BaseCommand $command)
     {
-        $handlerClassName = get_class($this);
-        $commandClassName = get_class($command);
+        $commandsNamespace = $this->getCommandsNamespace();
 
-        $handlerName = substr($handlerClassName, 0, strlen($handlerClassName) - 7);
+        $commandShortName = $this->getCommandShortName();
 
-        if ($handlerName !== $commandClassName) {
+        $commandName = "$commandsNamespace\\$commandShortName";
+
+        if ( ! $command instanceof $commandName) {
             throw new InvalidCommandArgumentException($command);
         }
     }
+
+    /**
+     * @return ReflectionClass
+     */
+    protected function getContainsNamespace()
+    {
+        $reflection = new ReflectionClass($this);
+
+        return $reflection->getNamespaceName();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCommandsNamespace()
+    {
+        $reflection = new ReflectionClass($this);
+
+        $ns = $reflection->getNamespaceName();
+        $segments = explode('\\', $ns);
+        array_pop($segments);
+        $cmdNs = $segments;
+
+        return implode('\\', $cmdNs);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCommandShortName()
+    {
+        $handlerShortName = (new ReflectionClass($this))->getShortName();
+        $commandShortName = substr($handlerShortName, 0, strlen($handlerShortName) - 7);
+
+        return $commandShortName;
+    }
+
 }
