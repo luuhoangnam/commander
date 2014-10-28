@@ -22,6 +22,9 @@ class InvalidCommandArgumentException extends InvalidArgumentException
      */
     private $command;
 
+    /**
+     * @param BaseCommand $command
+     */
     public function __construct(BaseCommand $command)
     {
         $this->command = $command;

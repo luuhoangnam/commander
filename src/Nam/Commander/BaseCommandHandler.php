@@ -3,7 +3,7 @@
 
 namespace Nam\Commander;
 
-use App;
+use Illuminate\Support\Facades\App;
 use Nam\Commander\Events\Contracts\Dispatcher;
 use Nam\Commander\Exceptions\InvalidCommandArgumentException;
 use ReflectionClass;
@@ -57,6 +57,7 @@ abstract class BaseCommandHandler implements CommandHandler
     public function getDispatcher()
     {
         if ( ! $this->dispatcher instanceof Dispatcher) {
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->dispatcher = App::make('Nam\Commander\Events\EventDispatcher');
         }
 

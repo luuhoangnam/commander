@@ -10,6 +10,8 @@ use TestCommands\Events\BazEvent;
  * @author  Nam Hoang Luu <nam@mbearvn.com>
  *
  */
+
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class EventListenerTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -47,6 +49,11 @@ class EventListenerTest extends PHPUnit_Framework_TestCase
     }
 }
 
+/**
+ * Class FooListener
+ */
+
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class FooListener extends EventListener
 {
     public function whenBarEvent($event)

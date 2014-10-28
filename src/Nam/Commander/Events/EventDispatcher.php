@@ -53,6 +53,7 @@ class EventDispatcher implements DispatcherInterface
 
             $this->dispatcher->fire($eventName, $event);
 
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->log->info("{$eventName} was fired.");
         }
     }

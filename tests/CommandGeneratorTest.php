@@ -10,6 +10,8 @@ use Nam\Commander\Console\CommandInput;
  * @author  Nam Hoang Luu <nam@mbearvn.com>
  *
  */
+
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class CommandGeneratorTest extends PHPUnit_Framework_TestCase
 {
     public function test_make()
@@ -39,6 +41,11 @@ class CommandGeneratorTest extends PHPUnit_Framework_TestCase
     }
 }
 
+/**
+ * Class FooCommandInput
+ */
+
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class FooCommandInput extends CommandInput
 {
 

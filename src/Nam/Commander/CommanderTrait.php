@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Input;
 use InvalidArgumentException;
 use ReflectionClass;
 
-
 /**
  * Trait CommanderTrait
  *
@@ -26,6 +25,7 @@ trait CommanderTrait
      */
     protected function executeCommand($command, array $input = null)
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $input = $input ?: Input::all();
 
         $command = $this->mapInputToCommand($command, $input);
@@ -66,6 +66,7 @@ trait CommanderTrait
      */
     protected function getCommandBus()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         return App::make('Nam\Commander\CommandBus');
     }
 }
