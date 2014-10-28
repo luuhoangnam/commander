@@ -5,8 +5,8 @@ namespace Nam\Commander;
 
 use Nam\Commander\Exceptions\CommandValidationException;
 use Illuminate\Validation\Factory;
-use Mbibi\Core\Commands\Validators\TestValidatorCommandValidator;
 use Illuminate\Validation\Validator;
+use Nam\Commander\Exceptions\ValidationDataInvalidException;
 
 
 /**
@@ -44,6 +44,7 @@ abstract class BaseCommandValidator implements CommandValidator
     }
 
     /**
+     * @throws ValidationDataInvalidException
      * @return array
      */
     public function getData()
@@ -52,13 +53,13 @@ abstract class BaseCommandValidator implements CommandValidator
             return $this->data;
         }
 
-        throw new ValidationDataInvalid($this->data);
+        throw new ValidationDataInvalidException($this->data);
     }
 
     /**
      * @param array $data
      *
-     * @return TestValidatorCommandValidator
+     * @return $this
      */
     public function setData(array $data)
     {
