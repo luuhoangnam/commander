@@ -1,8 +1,10 @@
 <?php
 
+use Nam\Commander\BaseCommand;
+use Nam\Commander\Inflectors\CommandInflector;
+use Nam\Commander\Inflectors\SimpleCommandInflector;
 use TestCommands\BarCommand;
 use TestCommands\FooCommand;
-use Nam\Commander\Inflectors\SimpleCommandInflector;
 
 
 /**
@@ -15,17 +17,42 @@ use Nam\Commander\Inflectors\SimpleCommandInflector;
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class SimpleCommandInflectorTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var BaseCommand
+     */
+    private $command;
+    /**
+     * @var CommandInflector
+     */
+    private $inflector;
+
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     *
+     */
+    protected function setUp()
+    {
+        $this->command = new FooCommand;
+        $this->inflector = new SimpleCommandInflector;;
+    }
+
     public function test_get_command_handler_class()
     {
-        // prepare
-        $command = new FooCommand;
-        $inflector = new SimpleCommandInflector;
-
         // act
-        $result = $inflector->getCommandHandler($command);
+        $result = $this->inflector->getCommandHandler($this->command);
 
         // assert
         $this->assertEquals("TestCommands\\Handlers\\FooCommandHandler", $result);
+    }
+
+    public function test_get_command_validator_class()
+    {
+        // act
+        $result = $this->inflector->getCommandValidator($this->command);
+
+        // assert
+        $this->assertEquals("TestCommands\\Validators\\FooCommandValidator", $result);
     }
 
     /**
@@ -34,13 +61,21 @@ class SimpleCommandInflectorTest extends PHPUnit_Framework_TestCase
     public function test_it_should_throw_exception_when_handler_class_does_not_exist()
     {
         // prepare
-        $command = new BarCommand;
-        $inflector = new SimpleCommandInflector;
+        $this->command = new BarCommand;
 
         // act
-        $inflector->getCommandHandler($command);
+        $this->inflector->getCommandHandler($this->command);
+    }
 
-        // assert
+    /**
+     * @expectedException \Nam\Commander\Exceptions\ValidatorNotRegisteredException
+     */
+    public function test_it_should_throw_exception_when_validator_class_does_not_exist()
+    {
+        // prepare
+        $this->command = new BarCommand;
 
+        // act
+        $this->inflector->getCommandValidator($this->command);
     }
 }

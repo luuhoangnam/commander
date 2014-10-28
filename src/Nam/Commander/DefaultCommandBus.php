@@ -3,6 +3,7 @@
 namespace Nam\Commander;
 
 use Illuminate\Foundation\Application;
+use Nam\Commander\Exceptions\CommandValidationException;
 use Nam\Commander\Inflectors\CommandInflector;
 
 
@@ -44,6 +45,9 @@ class DefaultCommandBus implements CommandBus
      */
     public function execute($command)
     {
+        $validator = $this->commandInflector->getCommandValidator($command);
+        $this->app->make($validator)->validate($command);
+
         $handler = $this->commandInflector->getCommandHandler($command);
 
         return $this->app->make($handler)->handle($command);

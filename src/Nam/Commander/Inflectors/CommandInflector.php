@@ -21,4 +21,11 @@ interface CommandInflector
      *
      */
     public function getCommandHandler(BaseCommand $command);
+
+    /**
+     * @param BaseCommand $command
+     *
+     * @return mixed
+     */
+    public function getCommandValidator(BaseCommand $command);
 }
