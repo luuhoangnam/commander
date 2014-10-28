@@ -65,6 +65,7 @@ class CommanderMakeCommand extends Command
         // Parse the command input.
         $commandInput = $this->parser->parse($path, $properties);
         $handlerInput = $this->parser->parse("{$path}Handler", $properties);
+        $validatorInput = $this->parser->parse("{$path}Validator", $properties);
 
         // Actually create the files with the correct boilerplate.
         $this->generator->make(
@@ -79,6 +80,14 @@ class CommanderMakeCommand extends Command
             $handlerInput,
             __DIR__ . '/stubs/handler.stub',
             "{$base}/{$handlerPath}.php"
+        );
+
+        $validatorPath = str_replace('\\', '/', $validatorInput->namespace) . '/' . $validatorInput->name;
+
+        $this->generator->make(
+            $handlerInput,
+            __DIR__ . '/stubs/validator.stub',
+            "{$base}/{$validatorPath}.php"
         );
 
         $this->info('All done! Your two classes have now been generated.');

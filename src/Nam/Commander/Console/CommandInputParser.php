@@ -30,6 +30,11 @@ class CommandInputParser
             $segments[] = 'Handlers';
         }
 
+        // Handle for "Validators" namespace
+        if (strpos($name, 'Validator') === strlen($name) - 9) {
+            $segments[] = 'Validators';
+        }
+
         $namespace = implode('\\', $segments);
 
         $properties = $this->parseProperties($properties);
