@@ -21,9 +21,7 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @var array
      */
-    public static $rules = [
-        'id' => 'required|integer'
-    ];
+    public static $rules = [ ];
     /**
      * @var Factory
      */
