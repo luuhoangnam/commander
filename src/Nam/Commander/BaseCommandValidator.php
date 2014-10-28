@@ -18,6 +18,8 @@ use Nam\Commander\Exceptions\ValidationDataInvalidException;
  */
 abstract class BaseCommandValidator implements CommandValidator
 {
+    protected $rules = [ ];
+
     /**
      * @var Factory
      */
@@ -79,7 +81,7 @@ abstract class BaseCommandValidator implements CommandValidator
      */
     public function internalValidation()
     {
-        $this->validation = $this->validator->make($this->getData(), $this->rules());
+        $this->validation = $this->validator->make($this->getData(), $this->getRule());
 
         if ($this->validation->fails()) {
             throw new CommandValidationException($this->getErrors());
@@ -91,5 +93,28 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @return array
      */
-    abstract public function rules();
+    public function getRule()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * @param string $field
+     * @param string $rules
+     */
+    public function addRule($field, $rules)
+    {
+        $existRules = '';
+        if (isset( $this->rules[$field] )) {
+            $existRules = $this->rules[$field];
+        }
+
+        $newRuleSegments = explode('|', $existRules);
+        foreach (explode('|', $rules) as $segment) {
+            $newRuleSegments[] = $segment;
+        }
+
+        $this->rules[$field] = implode('|', $newRuleSegments);
+    }
+
 }
