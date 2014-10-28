@@ -19,17 +19,15 @@ use Nam\Commander\Exceptions\ValidationDataInvalidException;
 abstract class BaseCommandValidator implements CommandValidator
 {
     /**
-     * @var array
-     */
-    public static $rules = [ ];
-    /**
      * @var Factory
      */
     protected $validator;
+
     /**
      * @var Validator
      */
     protected $validation;
+
     /**
      * @var array
      */
@@ -81,7 +79,7 @@ abstract class BaseCommandValidator implements CommandValidator
      */
     public function internalValidation()
     {
-        $this->validation = $this->validator->make($this->getData(), static::$rules);
+        $this->validation = $this->validator->make($this->getData(), $this->rules());
 
         if ($this->validation->fails()) {
             throw new CommandValidationException($this->getErrors());
@@ -89,4 +87,9 @@ abstract class BaseCommandValidator implements CommandValidator
 
         return true;
     }
+
+    /**
+     * @return array
+     */
+    abstract public function rules();
 }
