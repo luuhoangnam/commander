@@ -6,6 +6,7 @@ namespace {{ namespace }};
 
 use Nam\Commander\BaseCommand;
 use Nam\Commander\BaseCommandValidator;
+use Nam\Commander\Exceptions\CommandValidationException;
 
 
 /**
@@ -19,7 +20,7 @@ class {{ name }} extends BaseCommandValidator
 {
 
     /**
-     * @param TestValidatorCommand|BaseCommand $command
+     * @param BaseCommand $command
      *
      * @throws CommandValidationException
      *

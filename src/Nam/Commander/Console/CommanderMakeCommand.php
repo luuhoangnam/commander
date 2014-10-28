@@ -85,7 +85,7 @@ class CommanderMakeCommand extends Command
         $validatorPath = str_replace('\\', '/', $validatorInput->namespace) . '/' . $validatorInput->name;
 
         $this->generator->make(
-            $handlerInput,
+            $validatorInput,
             __DIR__ . '/stubs/validator.stub',
             "{$base}/{$validatorPath}.php"
         );

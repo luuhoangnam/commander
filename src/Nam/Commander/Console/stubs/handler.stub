@@ -27,7 +27,7 @@ class {{ name }} extends BaseCommandHandler
      */
     public function handle(BaseCommand $command)
     {
-        // Something here
+        $this->checkValidCommand($command);
     }
 
 }
