@@ -79,9 +79,9 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @return bool
      */
-    public function internalValidation()
+    protected function internalValidation()
     {
-        $this->validation = $this->validator->make($this->getData(), $this->getRule());
+        $this->validation = $this->validator->make($this->getData(), $this->getRules());
 
         if ($this->validation->fails()) {
             throw new CommandValidationException($this->getErrors());
@@ -93,7 +93,7 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @return array
      */
-    public function getRule()
+    public function getRules()
     {
         return $this->rules;
     }
