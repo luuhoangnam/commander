@@ -49,11 +49,11 @@ abstract class BaseCommandValidator implements CommandValidator
      */
     public function getData()
     {
-        if (is_array($this->data) && count($this->data) > 0) {
-            return $this->data;
+        if (count($this->rules) > count($this->data)) {
+            throw new ValidationDataInvalidException($this->data);
         }
 
-        throw new ValidationDataInvalidException($this->data);
+        return $this->data;
     }
 
     /**
