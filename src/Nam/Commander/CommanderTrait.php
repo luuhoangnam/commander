@@ -46,16 +46,9 @@ trait CommanderTrait
 
         $class = new ReflectionClass($command);
 
-        foreach ($class->getConstructor()->getParameters() as $parameter) {
-            $name = $parameter->getName();
-
-            if (isset( $input[$name] )) {
-                $dependencies[] = $input[$name];
-            } elseif ($parameter->isDefaultValueAvailable()) {
-                $dependencies[] = $parameter->getDefaultValue();
-            } else {
-                throw new InvalidArgumentException("Unable to map input to command: {$name}");
-            }
+        $commandConstructor = $class->getConstructor();
+        if ($commandConstructor) {
+            $dependencies = $this->resolveDependencies($input, $commandConstructor, $dependencies);
         }
 
         return $class->newInstanceArgs($dependencies);
@@ -68,5 +61,29 @@ trait CommanderTrait
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return App::make('Nam\Commander\CommandBus');
+    }
+
+    /**
+     * @param array $input
+     * @param       $commandConstructor
+     * @param       $dependencies
+     *
+     * @return array
+     */
+    protected function resolveDependencies(array $input, $commandConstructor, $dependencies)
+    {
+        foreach ($commandConstructor->getParameters() as $parameter) {
+            $name = $parameter->getName();
+
+            if (isset( $input[$name] )) {
+                $dependencies[] = $input[$name];
+            } elseif ($parameter->isDefaultValueAvailable()) {
+                $dependencies[] = $parameter->getDefaultValue();
+            } else {
+                throw new InvalidArgumentException("Unable to map input to command: {$name}");
+            }
+        }
+
+        return $dependencies;
     }
 }
