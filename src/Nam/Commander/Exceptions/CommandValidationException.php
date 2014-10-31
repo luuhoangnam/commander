@@ -3,6 +3,7 @@
 
 namespace Nam\Commander\Exceptions;
 
+use Illuminate\Support\Contracts\MessageProviderInterface;
 use Illuminate\Support\MessageBag;
 use RuntimeException;
 
@@ -14,27 +15,29 @@ use RuntimeException;
  * @package Nam\Commander\Exceptions
  *
  */
-class CommandValidationException extends RuntimeException
+class CommandValidationException extends RuntimeException implements MessageProviderInterface
 {
 
     /**
      * @var MessageBag
      */
-    private $errors;
+    private $messageBag;
 
     /**
-     * @param MessageBag $errors
+     * Get the messages for the instance.
+     *
+     * @return \Illuminate\Support\MessageBag
      */
-    public function __construct(MessageBag $errors)
+    public function getMessageBag()
     {
-        $this->errors = $errors;
+        return $this->messageBag;
     }
 
     /**
-     * @return MessageBag
+     * @param MessageBag $messageBag
      */
-    public function getErrors()
+    public function __construct(MessageBag $messageBag)
     {
-        return $this->errors;
+        $this->messageBag = $messageBag;
     }
 }
