@@ -3,6 +3,7 @@
 
 namespace Nam\Commander\Inflectors;
 
+use Illuminate\Support\Str;
 use Nam\Commander\BaseCommand;
 use Nam\Commander\CommandHandler;
 use Nam\Commander\Exceptions\HandlerNotRegisteredException;
@@ -27,9 +28,7 @@ class SimpleCommandInflector implements CommandInflector
      */
     public function getCommandHandler(BaseCommand $command)
     {
-        list( $commandName, $commandNamespace ) = $this->getCommandNamespace($command);
-
-        $handler = $commandNamespace . "\\Handlers\\{$commandName}Handler"; // => \Mbibi\Core\Commands\Handlers\RegisterUserCommandHandler
+        $handler = $this->getComponent($command, 'Handler');
 
         if ( ! class_exists($handler)) {
             $message = "Command handler [$handler] does not exist.";
@@ -48,12 +47,10 @@ class SimpleCommandInflector implements CommandInflector
      */
     public function getCommandValidator(BaseCommand $command)
     {
-        list( $commandName, $commandNamespace ) = $this->getCommandNamespace($command);
-
-        $validator = $commandNamespace . "\\Validators\\{$commandName}Validator"; // => \Mbibi\Core\Commands\Handlers\RegisterUserCommandHandler
+        $validator = $this->getComponent($command, 'Validator');
 
         if ( ! class_exists($validator)) {
-            $message = "Command validator [$validator] does not exist.";
+            $message = "Command handler [$validator] does not exist.";
 
             throw new ValidatorNotRegisteredException($message);
         }
@@ -74,5 +71,67 @@ class SimpleCommandInflector implements CommandInflector
         $commandNamespace = implode('\\', $parts);
 
         return [ $command, $commandNamespace ];
+    }
+
+    /**
+     * @param $segments
+     *
+     * @return int
+     */
+    protected function guestRoot($segments)
+    {
+        $found = false;
+        $rootIndex = '';
+        for ($i = count($segments) - 1; $i >= 0; $i --) {
+            $check = implode('\\', array_chunk($segments, $i + 1)[0]);
+            if ($found) {
+                $rootIndex = $i;
+                break;
+            }
+
+            if ($segments[$i] === 'Commands') {
+                $found = true;
+            }
+        }
+
+        return $rootIndex;
+    }
+
+    /**
+     * @param BaseCommand $command
+     *
+     * @return string
+     */
+    protected function getComponent(BaseCommand $command, $component = 'Handler')
+    {
+        $reflectionClass = (new ReflectionClass($command));
+        $commandName = $reflectionClass->getName();
+        $segments = explode('\\', $commandName);
+        $commandShortName = array_pop($segments);
+        $commandObjectName = substr($commandShortName, 0, count($commandShortName) - 8);
+
+        $rootIndex = $this->guestRoot($segments);
+        $rootSegments = [ ];
+
+        foreach (range(0, $rootIndex) as $index) {
+            $rootSegments[] = array_shift($segments);
+        }
+
+        array_shift($segments);
+
+        $namespaceSegments = [ ];
+        foreach ($rootSegments as $rootSegment) {
+            $namespaceSegments[] = $rootSegment;
+        }
+
+        $namespaceSegments[] = Str::plural($component);
+
+        foreach ($segments as $segment) {
+            $namespaceSegments[] = $segment;
+        }
+
+        $handlerName = implode('\\', $namespaceSegments) . "\\{$commandObjectName}Command{$component}";
+
+        return $handlerName;
     }
 }

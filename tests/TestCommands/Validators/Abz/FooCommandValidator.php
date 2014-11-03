@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TestCommands\Validators;
+namespace TestCommands\Validators\Abz;
 
 use Nam\Commander\BaseCommand;
 use Nam\Commander\CommandValidator;

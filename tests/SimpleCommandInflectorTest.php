@@ -3,8 +3,8 @@
 use Nam\Commander\BaseCommand;
 use Nam\Commander\Inflectors\CommandInflector;
 use Nam\Commander\Inflectors\SimpleCommandInflector;
-use TestCommands\BarCommand;
-use TestCommands\FooCommand;
+use TestCommands\Commands\Abz\BarCommand;
+use TestCommands\Commands\Abz\FooCommand;
 
 
 /**
@@ -43,7 +43,7 @@ class SimpleCommandInflectorTest extends PHPUnit_Framework_TestCase
         $result = $this->inflector->getCommandHandler($this->command);
 
         // assert
-        $this->assertEquals("TestCommands\\Handlers\\FooCommandHandler", $result);
+        $this->assertEquals("TestCommands\\Handlers\\Abz\\FooCommandHandler", $result);
     }
 
     public function test_get_command_validator_class()
@@ -52,7 +52,7 @@ class SimpleCommandInflectorTest extends PHPUnit_Framework_TestCase
         $result = $this->inflector->getCommandValidator($this->command);
 
         // assert
-        $this->assertEquals("TestCommands\\Validators\\FooCommandValidator", $result);
+        $this->assertEquals("TestCommands\\Validators\\Abz\\FooCommandValidator", $result);
     }
 
     /**

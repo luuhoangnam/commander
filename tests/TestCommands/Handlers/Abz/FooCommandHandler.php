@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TestCommands\Handlers;
+namespace TestCommands\Handlers\Abz;
 
 use Nam\Commander\BaseCommand;
 use Nam\Commander\CommandHandler;
