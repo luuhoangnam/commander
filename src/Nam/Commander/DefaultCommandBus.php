@@ -46,7 +46,9 @@ class DefaultCommandBus implements CommandBus
     public function execute($command)
     {
         $validator = $this->commandInflector->getCommandValidator($command);
-        $this->app->make($validator)->validate($command);
+        if ($validator) {
+            $this->app->make($validator)->validate($command);
+        }
 
         $handler = $this->commandInflector->getCommandHandler($command);
 

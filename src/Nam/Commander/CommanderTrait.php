@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * Trait CommanderTrait
@@ -64,13 +65,13 @@ trait CommanderTrait
     }
 
     /**
-     * @param array $input
-     * @param       $commandConstructor
-     * @param       $dependencies
+     * @param array            $input
+     * @param ReflectionMethod $commandConstructor
+     * @param                  $dependencies
      *
      * @return array
      */
-    protected function resolveDependencies(array $input, $commandConstructor, $dependencies)
+    protected function resolveDependencies(array $input, ReflectionMethod $commandConstructor, $dependencies)
     {
         foreach ($commandConstructor->getParameters() as $parameter) {
             $name = $parameter->getName();

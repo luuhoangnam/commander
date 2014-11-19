@@ -3,8 +3,9 @@
 
 namespace Nam\Commander;
 
-use Nam\Commander\Exceptions\CommandValidationException;
+use Illuminate\Foundation\Application;
 use Illuminate\Validation\Factory;
+use Nam\Commander\Exceptions\CommandValidationException;
 use Illuminate\Validation\Validator;
 use Nam\Commander\Exceptions\ValidationDataInvalidException;
 
@@ -36,11 +37,17 @@ abstract class BaseCommandValidator implements CommandValidator
     protected $data = [ ];
 
     /**
-     * @param Factory $validator
+     * @var Application
      */
-    public function __construct(Factory $validator)
+    protected $app;
+
+    /**
+     * @param Application $app
+     */
+    public function __construct(Application $app)
     {
-        $this->validator = $validator;
+        $this->app = $app;
+        $this->validator = $this->app->make('Illuminate\Validation\Factory');
     }
 
     /**

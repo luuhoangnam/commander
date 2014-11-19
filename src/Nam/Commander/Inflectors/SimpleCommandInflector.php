@@ -50,9 +50,7 @@ class SimpleCommandInflector implements CommandInflector
         $validator = $this->getComponent($command, 'Validator');
 
         if ( ! class_exists($validator)) {
-            $message = "Command handler [$validator] does not exist.";
-
-            throw new ValidatorNotRegisteredException($message);
+            return null;
         }
 
         return $validator;

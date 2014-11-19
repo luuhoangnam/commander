@@ -3,10 +3,13 @@
 
 namespace Nam\Commander;
 
-use Illuminate\Support\Facades\App;
+use Illuminate\Config\Repository;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Str;
+use Mbibi\Exceptions\CannotRollbackAttachModelOperationException;
+use Mbibi\Models\User;
 use Nam\Commander\Events\Contracts\Dispatcher;
-use Nam\Commander\Exceptions\InvalidCommandArgumentException;
-use ReflectionClass;
 
 
 /**
@@ -26,6 +29,19 @@ abstract class BaseCommandHandler implements CommandHandler
      * @var array
      */
     protected $pendingEvents = [ ];
+
+    /**
+     * @var Application
+     */
+    protected $app;
+
+    /**
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Raise a new event
@@ -57,8 +73,7 @@ abstract class BaseCommandHandler implements CommandHandler
     public function getDispatcher()
     {
         if ( ! $this->dispatcher instanceof Dispatcher) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $this->dispatcher = App::make('Nam\Commander\Events\EventDispatcher');
+            $this->dispatcher = $this->app->make('Nam\Commander\Events\EventDispatcher');
         }
 
         return $this->dispatcher;
@@ -70,6 +85,54 @@ abstract class BaseCommandHandler implements CommandHandler
     public function setDispatcher(Dispatcher $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @param string $repo
+     *
+     * @return mixed
+     */
+    protected function getRepository($repo)
+    {
+        $className = ucfirst(Str::camel($repo));
+
+        return $this->app->make("Mbibi\\Contracts\\Repository\\{$className}");
+    }
+
+    /**
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed
+     */
+    protected function config($key, $default = null)
+    {
+        /** @var Repository $config */
+        $config = $this->app->make('config');
+
+        return $config->get($key, $default);
+    }
+
+    /**
+     * @return User
+     */
+    protected function getCurrentUser()
+    {
+        return $this->getRepository('user')->getCurrentUserOrFail();
+    }
+
+    /**
+     * @param Model $model
+     *
+     * @return bool
+     */
+    protected function rollbackModel(Model $model)
+    {
+        if ( ! $model->delete()) {
+            throw new CannotRollbackAttachModelOperationException($model);
+        }
+
+        return true;
     }
 
 }

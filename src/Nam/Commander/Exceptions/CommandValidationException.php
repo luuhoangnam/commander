@@ -34,6 +34,16 @@ class CommandValidationException extends RuntimeException implements MessageProv
     }
 
     /**
+     * Get all error messages
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->messageBag->all();
+    }
+
+    /**
      * @param MessageBag $messageBag
      */
     public function __construct(MessageBag $messageBag)
