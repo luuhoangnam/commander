@@ -52,23 +52,40 @@ class CommanderMakeCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function fire()
     {
         $commandName = $this->argument('commandName');
-        \View::addLocation(__DIR__);
+        $basePath = $this->option('base');
+        $group = $this->option('group');
+        $commandPath = $this->option('commandPath');
+        $rootNamespace = $this->option('rootNamespace');
+        $properties = $this->option('properties');
 
-        /** @var \Nam\Commander\Console\Generator $generator */
-        $generator = \App::make('Nam\Commander\Console\Generator');
-        $generator->setBasePath('app/Mbibi/Core');
-        $generator->setGroup('Test');
-        $generator->setCommandPath('Commands');
-        $generator->setRootNamespace('Mbibi\Core');
-        $generator->make($commandName, 'email:string:required|max:255 &    password:string:required|between:8,32');
+        try {
+            \View::addLocation(__DIR__);
+
+            /** @var \Nam\Commander\Console\Generator $generator */
+            $generator = \App::make('Nam\Commander\Console\Generator');
+            $generator->setBasePath($basePath);
+            $generator->setGroup($group);
+            $generator->setCommandPath($commandPath);
+            $generator->setRootNamespace($rootNamespace);
+            $successFiles = $generator->make($commandName, $properties);
+        } catch ( \Exception $e ) {
+            if (\Config::get('app.debug')) {
+                throw $e;
+            }
+
+            \Log::error($e->getMessage(), $e->getTrace());
+            $this->error("Error occurred! Logged.");
+            return;
+        }
 
         $this->info('All done! Your classes have now been generated.');
+        array_map(function ($file) {
+            $this->info($file);
+        }, $successFiles);
 
         return;
     }
@@ -102,11 +119,52 @@ class CommanderMakeCommand extends Command
             [
                 'base',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'The path to where your domain root is located.',
                 $config['base']
-            ]
+            ],
+            [
+                'group',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The path to where your domain root is located.',
+                null
+            ],
+            [
+                'commandPath',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The path to where your domain root is located.',
+                $config['commandPath']
+            ],
+            [
+                'handlerPath',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The path to where your domain root is located.',
+                $config['handlerPath']
+            ],
+            [
+                'validatorPath',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The path to where your domain root is located.',
+                $config['validatorPath']
+            ],
+            [
+                'rootNamespace',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The path to where your domain root is located.',
+                $config['rootNamespace']
+            ],
+            [
+                'properties',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The path to where your domain root is located.',
+                null
+            ],
         ];
     }
-
 }

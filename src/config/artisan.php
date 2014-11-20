@@ -9,5 +9,9 @@
  */
 
 return [
-    'base' => 'app',
+    'base'          => 'app/Nam/Core',
+    'commandPath'   => 'Commands',
+    'handlerPath'   => 'Handlers',
+    'validatorPath' => 'Validators',
+    'rootNamespace' => 'Nam\Core',
 ];

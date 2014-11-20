@@ -63,6 +63,8 @@ class Generator
     /**
      * @param string $commandName
      * @param string $properties
+     *
+     * @return array
      */
     public function make($commandName, $properties = null)
     {
@@ -82,9 +84,7 @@ class Generator
         $viewData['handlerNamespace'] = $this->getNamespaceFor('handler');
         $viewData['validatorNamespace'] = $this->getNamespaceFor('validator');
 
-        $this->makeFiles($viewData);
-
-        return;
+        return $this->makeFiles($viewData);
     }
 
     /**
@@ -207,7 +207,7 @@ class Generator
     /**
      * @param $viewData
      *
-     * @return int
+     * @return array
      */
     protected function makeFiles($viewData)
     {
@@ -278,8 +278,13 @@ class Generator
         // Write to file
         $commandDir = $this->getDirFor($fileType);
 
-        if (! $this->file->exists($commandDir)) {
-            $this->file->makeDirectory($commandDir);
+        $segments = explode('/', $commandDir);
+        for ($index = 0; $index < count($segments); $index++) {
+            $dir = implode('/', array_slice($segments, 0, $index + 1));
+
+            if (! $this->file->exists($dir)) {
+                $this->file->makeDirectory($dir);
+            }
         }
 
         $commandFile = $this->{'get' . ucfirst(camel_case($fileType)) . 'FileName'}($viewData['commandName']);
