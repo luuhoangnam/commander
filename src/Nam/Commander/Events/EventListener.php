@@ -5,7 +5,6 @@ namespace Nam\Commander\Events;
 
 use ReflectionClass;
 
-
 /**
  * Class EventListener
  *
@@ -13,7 +12,8 @@ use ReflectionClass;
  * @package Mbibi\Core\Commands\Listeners
  *
  */
-abstract class EventListener {
+abstract class EventListener
+{
 
     /**
      * @param $event

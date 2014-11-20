@@ -5,7 +5,6 @@ namespace Nam\Commander\Exceptions;
 
 use InvalidArgumentException;
 
-
 /**
  * Class InvalidCommandException
  *

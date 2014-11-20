@@ -3,11 +3,34 @@
 namespace Nam\Commander\Console;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class CommanderMake
+ *
+ * Type 1: Only specify commandName ~> Guest base path & command,validator,handler paths
+ * commander:make RegisterUserCommand
+ *
+ * Type 2: Specify commandName & base path ~> Guest command,validator,handler paths by conventions
+ * commander:make RegisterUserCommand --base="app/Mbear/Core"
+ *
+ * Type 3: Specify commandName, base path & only one of types command,handler,validator relatively to base path
+ *         ~> Guest the rest of paths by conventions relatively to base path and the path that specified.
+ * commander:make RegisterUserCommand --base="app/Mbear/Core" --commandPath="Commands"
+ * commander:make RegisterUserCommand --base="app/Mbear/Core" --commandPath="Handlers"
+ * commander:make RegisterUserCommand --base="app/Mbear/Core" --commandPath="Validators"
+ *
+ * Type 4: Specify commandName, basePath & two of types command, handler, validator paths
+ * commander:make RegisterUserCommand --base="app/Mbear/Core" --commandPath="Commands" --handlerPath="Handlers"
+ * ...
+ *
+ * Type 5: Additional specify namespace
+ * commander:make RegisterUserCommand --namespace="Mbear\Core"
+ *
+ * Type 6: Specify Properties
+ * commander:make RegisterUserCommand -p="email:string:required|email|between:6,32 & password:string:required\confirmed"
+ *
  * @package Mbibi\Core\Console
  */
 class CommanderMakeCommand extends Command
@@ -26,30 +49,6 @@ class CommanderMakeCommand extends Command
      * @var string
      */
     protected $description = 'Generate new command and its handler class.';
-    /**
-     * @var CommandInputParser
-     */
-    private $parser;
-    /**
-     * @var CommandGenerator
-     */
-    private $generator;
-
-    /**
-     * Create a new command instance.
-     *
-     * @param CommandInputParser $parser
-     * @param CommandGenerator   $generator
-     *
-     * @return CommanderMakeCommand
-     */
-    public function __construct(CommandInputParser $parser, CommandGenerator $generator)
-    {
-        $this->parser = $parser;
-        $this->generator = $generator;
-
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -58,39 +57,20 @@ class CommanderMakeCommand extends Command
      */
     public function fire()
     {
-        $path = $this->argument('path');
-        $properties = $this->option('properties');
-        $base = $this->option('base');
+        $commandName = $this->argument('commandName');
+        \View::addLocation(__DIR__);
 
-        // Parse the command input.
-        $commandInput = $this->parser->parse($path, $properties);
-        $handlerInput = $this->parser->parse("{$path}Handler", $properties);
-        $validatorInput = $this->parser->parse("{$path}Validator", $properties);
+        /** @var \Nam\Commander\Console\Generator $generator */
+        $generator = \App::make('Nam\Commander\Console\Generator');
+        $generator->setBasePath('app/Mbibi/Core');
+        $generator->setGroup('Test');
+        $generator->setCommandPath('Commands');
+        $generator->setRootNamespace('Mbibi\Core');
+        $generator->make($commandName, 'email:string:required|max:255 &    password:string:required|between:8,32');
 
-        // Actually create the files with the correct boilerplate.
-        $this->generator->make(
-            $commandInput,
-            __DIR__ . '/stubs/command.stub',
-            "{$base}/{$path}.php"
-        );
+        $this->info('All done! Your classes have now been generated.');
 
-        $handlerPath = str_replace('\\', '/', $handlerInput->namespace) . '/' . $handlerInput->name;
-
-        $this->generator->make(
-            $handlerInput,
-            __DIR__ . '/stubs/handler.stub',
-            "{$base}/{$handlerPath}.php"
-        );
-
-        $validatorPath = str_replace('\\', '/', $validatorInput->namespace) . '/' . $validatorInput->name;
-
-        $this->generator->make(
-            $validatorInput,
-            __DIR__ . '/stubs/validator.stub',
-            "{$base}/{$validatorPath}.php"
-        );
-
-        $this->info('All done! Your two classes have now been generated.');
+        return;
     }
 
     /**
@@ -102,9 +82,9 @@ class CommanderMakeCommand extends Command
     {
         return [
             [
-                'path',
+                'commandName',
                 InputArgument::REQUIRED,
-                'The class path to Commands namespace: the Commands will be placed in this namespace, the Handlers will be placed in Commands\Handlers namespace'
+                'Name of command'
             ],
         ];
     }
@@ -119,13 +99,6 @@ class CommanderMakeCommand extends Command
         $config = \App::make('config')->get('commander::artisan');
 
         return [
-            [
-                'properties',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'A comma-separated list of properties for the command.',
-                null
-            ],
             [
                 'base',
                 null,

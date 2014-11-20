@@ -3,9 +3,7 @@
 namespace Nam\Commander;
 
 use Illuminate\Foundation\Application;
-use Nam\Commander\Exceptions\CommandValidationException;
 use Nam\Commander\Inflectors\CommandInflector;
-
 
 /**
  * Class SimpleCommandBus

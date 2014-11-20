@@ -100,5 +100,4 @@ class CommanderServiceProvider extends ServiceProvider
             $this->app['events']->listen('Mbibi.Core.Commands.Events.*', $listener);
         }
     }
-
 }

@@ -4,7 +4,6 @@ namespace Nam\Commander;
 
 use Nam\Commander\Exceptions\InvalidCommandException;
 
-
 /**
  * Class RegisterUserCommandHandler
  *

@@ -11,7 +11,6 @@ use Mbibi\Exceptions\CannotRollbackAttachModelOperationException;
 use Mbibi\Models\User;
 use Nam\Commander\Events\Contracts\Dispatcher;
 
-
 /**
  * Class BaseCommandHandler
  *
@@ -72,7 +71,7 @@ abstract class BaseCommandHandler implements CommandHandler
      */
     public function getDispatcher()
     {
-        if ( ! $this->dispatcher instanceof Dispatcher) {
+        if (! $this->dispatcher instanceof Dispatcher) {
             $this->dispatcher = $this->app->make('Nam\Commander\Events\EventDispatcher');
         }
 
@@ -128,11 +127,10 @@ abstract class BaseCommandHandler implements CommandHandler
      */
     protected function rollbackModel(Model $model)
     {
-        if ( ! $model->delete()) {
+        if (! $model->delete()) {
             throw new CannotRollbackAttachModelOperationException($model);
         }
 
         return true;
     }
-
 }

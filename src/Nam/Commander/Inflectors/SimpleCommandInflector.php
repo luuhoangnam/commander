@@ -30,7 +30,7 @@ class SimpleCommandInflector implements CommandInflector
     {
         $handler = $this->getComponent($command, 'Handler');
 
-        if ( ! class_exists($handler)) {
+        if (! class_exists($handler)) {
             $message = "Command handler [$handler] does not exist.";
 
             throw new HandlerNotRegisteredException($message);
@@ -49,7 +49,7 @@ class SimpleCommandInflector implements CommandInflector
     {
         $validator = $this->getComponent($command, 'Validator');
 
-        if ( ! class_exists($validator)) {
+        if (! class_exists($validator)) {
             return null;
         }
 
@@ -80,8 +80,8 @@ class SimpleCommandInflector implements CommandInflector
     {
         $found = false;
         $rootIndex = '';
-        for ($i = count($segments) - 1; $i >= 0; $i --) {
-            $check = implode('\\', array_chunk($segments, $i + 1)[0]);
+        for ($i = count($segments) - 1; $i >= 0; $i--) {
+//            $check = implode('\\', array_chunk($segments, $i + 1)[0]);
             if ($found) {
                 $rootIndex = $i;
                 break;
@@ -97,6 +97,7 @@ class SimpleCommandInflector implements CommandInflector
 
     /**
      * @param BaseCommand $command
+     * @param string      $component
      *
      * @return string
      */
@@ -111,7 +112,7 @@ class SimpleCommandInflector implements CommandInflector
         $rootIndex = $this->guestRoot($segments);
         $rootSegments = [ ];
 
-        foreach (range(0, $rootIndex) as $index) {
+        for ($i = 0; $i <= $rootIndex; $i++) {
             $rootSegments[] = array_shift($segments);
         }
 

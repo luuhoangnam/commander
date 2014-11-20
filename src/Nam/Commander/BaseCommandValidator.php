@@ -9,7 +9,6 @@ use Nam\Commander\Exceptions\CommandValidationException;
 use Illuminate\Validation\Validator;
 use Nam\Commander\Exceptions\ValidationDataInvalidException;
 
-
 /**
  * Class BaseCommandValidator
  *
@@ -123,5 +122,4 @@ abstract class BaseCommandValidator implements CommandValidator
 
         $this->rules[$field] = implode('|', $newRuleSegments);
     }
-
 }

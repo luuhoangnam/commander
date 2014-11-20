@@ -7,7 +7,6 @@ use Illuminate\Support\Contracts\MessageProviderInterface;
 use Illuminate\Support\MessageBag;
 use RuntimeException;
 
-
 /**
  * Class CommandValidationException
  *

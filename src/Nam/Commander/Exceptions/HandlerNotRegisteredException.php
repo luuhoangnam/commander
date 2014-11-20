@@ -5,7 +5,6 @@ namespace Nam\Commander\Exceptions;
 
 use Exception;
 
-
 /**
  * Class HandlerNotRegisteredException
  *
@@ -13,6 +12,7 @@ use Exception;
  * @package Mbibi\Core\Commands\Exceptions
  *
  */
-class HandlerNotRegisteredException extends Exception{
+class HandlerNotRegisteredException extends Exception
+{
 
 }
