@@ -15,15 +15,10 @@ class {{ $commandName }} extends BaseCommand
 {{ '{' }}
 @foreach($properties as $property)
 
-    private ${{ $property['name'] }};
-
     /**
-     * {{ $extra['@'] }}return {{ $property['type'] }}
+     * {{ $extra['@'] }}var {{ $property['type'] }}
      */
-    public function {{ camel_case("get {$property['name']}") }}()
-    {{ '{' }}
-        return $this->{{ $property['name'] }};
-    {{ '}' }}
+    public ${{ $property['name'] }};
 @endforeach
 
     /**
