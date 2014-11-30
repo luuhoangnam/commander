@@ -93,11 +93,11 @@ class CommanderServiceProvider extends ServiceProvider
      */
     protected function bootEventListeners()
     {
-        $listeners = $this->app['config']['commander::event.listeners'];
+        $events = $this->app['config']['commander::event'];
 
-        foreach ($listeners as $listener) {
+        foreach ($events as $event => $listener) {
             /** @noinspection PhpUndefinedMethodInspection */
-            $this->app['events']->listen('Mbibi.Core.Commands.Events.*', $listener);
+            $this->app['events']->listen($event, $listener);
         }
     }
 }
