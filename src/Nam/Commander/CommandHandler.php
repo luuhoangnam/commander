@@ -2,8 +2,6 @@
 
 namespace Nam\Commander;
 
-use Nam\Commander\Exceptions\InvalidCommandException;
-
 /**
  * Class RegisterUserCommandHandler
  *
@@ -14,10 +12,9 @@ use Nam\Commander\Exceptions\InvalidCommandException;
 interface CommandHandler
 {
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
-     * @throws InvalidCommandException
      * @return mixed
      */
-    public function handle(BaseCommand $command);
+    public function handle($command);
 }

@@ -20,7 +20,7 @@ class {{ $commandName }}Handler extends BaseCommandHandler
      *
      * {{ $extra['@'] }}return mixed
      */
-    public function handle({{ $commandName }} $command)
+    public function handle($command)
     {
         //
     }

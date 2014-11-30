@@ -2,8 +2,6 @@
 
 namespace {{ $commandNamespace }};
 
-use Nam\Commander\BaseCommand;
-
 /**
  * Command {{ $commandName }}
  *
