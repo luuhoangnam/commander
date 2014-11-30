@@ -18,7 +18,6 @@ use Nam\Commander\Exceptions\ValidationDataInvalidException;
  */
 abstract class BaseCommandValidator implements CommandValidator
 {
-    protected $rules = [ ];
 
     /**
      * @var Factory
@@ -29,11 +28,6 @@ abstract class BaseCommandValidator implements CommandValidator
      * @var Validator
      */
     protected $validation;
-
-    /**
-     * @var array
-     */
-    protected $data = [ ];
 
     /**
      * @var Application
@@ -50,31 +44,6 @@ abstract class BaseCommandValidator implements CommandValidator
     }
 
     /**
-     * @throws ValidationDataInvalidException
-     * @return array
-     */
-    public function getData()
-    {
-        if (count($this->rules) > count($this->data)) {
-            throw new ValidationDataInvalidException($this->data);
-        }
-
-        return $this->data;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return $this
-     */
-    public function setData(array $data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
      * @return \Illuminate\Support\MessageBag
      */
     protected function getErrors()
@@ -85,9 +54,15 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @return bool
      */
-    protected function internalValidation()
+    public function validate($command)
     {
-        $this->validation = $this->validator->make($this->getData(), $this->getRules());
+        if (is_object($command)) {
+            throw new CommandValidationException();
+        }
+
+        $data = get_object_vars($command);
+
+        $this->validation = $this->validator->make($data, $this->rules());
 
         if ($this->validation->fails()) {
             throw new CommandValidationException($this->getErrors());
@@ -99,27 +74,5 @@ abstract class BaseCommandValidator implements CommandValidator
     /**
      * @return array
      */
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
-    /**
-     * @param string $field
-     * @param string $rules
-     */
-    public function addRule($field, $rules)
-    {
-        $existRules = '';
-        if (isset( $this->rules[$field] )) {
-            $existRules = $this->rules[$field];
-        }
-
-        $newRuleSegments = explode('|', $existRules);
-        foreach (explode('|', $rules) as $segment) {
-            $newRuleSegments[] = $segment;
-        }
-
-        $this->rules[$field] = implode('|', $newRuleSegments);
-    }
+    abstract public function rules();
 }

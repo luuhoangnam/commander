@@ -11,19 +11,19 @@ use Nam\Commander\BaseCommand;
  * {{ $extra['@'] }}package {{ $commandNamespace }}
  *
  */
-class {{ $commandName }} extends BaseCommand
+class {{ $commandName }}
 {{ '{' }}
 @foreach($properties as $property)
 
     /**
-     * {{ $extra['@'] }}var {{ $property['type'] }}
+     * {{ $extra['@'] }}var {{ $property['type'] ?: '' }}
      */
     public ${{ $property['name'] }};
 @endforeach
 
     /**
 @foreach($properties as $property)
-     * {{ $extra['@'] }}param {{ $property['type'] }} ${{ $property['name'] }}
+     * {{ $extra['@'] }}param {{ $property['type'] ?: '' }} ${{ $property['name'] }}
 @endforeach
      */
     public function __construct(@foreach($properties as $index => $property)@if($index),@endif @if($property['type'] === 'array')array @endif${{ $property['name'] }} @endforeach{{ ')' }}

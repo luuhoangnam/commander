@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Nam\Commander;
 
 use Illuminate\Config\Repository;
@@ -24,6 +23,7 @@ abstract class BaseCommandHandler implements CommandHandler
      * @var Dispatcher
      */
     protected $dispatcher;
+
     /**
      * @var array
      */
@@ -45,7 +45,7 @@ abstract class BaseCommandHandler implements CommandHandler
     /**
      * Raise a new event
      *
-     * @param $event
+     * @param mixed $event
      */
     public function raiseEvent($event)
     {
@@ -84,53 +84,5 @@ abstract class BaseCommandHandler implements CommandHandler
     public function setDispatcher(Dispatcher $dispatcher)
     {
         $this->dispatcher = $dispatcher;
-    }
-
-    /**
-     * @param string $repo
-     *
-     * @return mixed
-     */
-    protected function getRepository($repo)
-    {
-        $className = ucfirst(Str::camel($repo));
-
-        return $this->app->make("Mbibi\\Contracts\\Repository\\{$className}");
-    }
-
-    /**
-     * @param string $key
-     * @param null   $default
-     *
-     * @return mixed
-     */
-    protected function config($key, $default = null)
-    {
-        /** @var Repository $config */
-        $config = $this->app->make('config');
-
-        return $config->get($key, $default);
-    }
-
-    /**
-     * @return User
-     */
-    protected function getCurrentUser()
-    {
-        return $this->getRepository('user')->getCurrentUserOrFail();
-    }
-
-    /**
-     * @param Model $model
-     *
-     * @return bool
-     */
-    protected function rollbackModel(Model $model)
-    {
-        if (! $model->delete()) {
-            throw new CannotRollbackAttachModelOperationException($model);
-        }
-
-        return true;
     }
 }

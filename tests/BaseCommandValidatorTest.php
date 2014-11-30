@@ -28,7 +28,7 @@ class BaseCommandValidatorTest extends PHPUnit_Framework_TestCase
         $validator->addRule('foo', 'between:8,32');
 
         // assert
-        $rules = $validator->getRules();
+        $rules = $validator->rules();
         $this->assertEquals([ 'foo' => 'required|email|between:8,32' ], $rules);
     }
 }

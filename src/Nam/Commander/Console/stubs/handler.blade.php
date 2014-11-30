@@ -3,7 +3,6 @@
 namespace {{ $handlerNamespace }};
 
 use {{ $commandNamespace }}\{{ $commandName }};
-use Nam\Commander\BaseCommand;
 use Nam\Commander\BaseCommandHandler;
 
 /**
@@ -17,11 +16,11 @@ class {{ $commandName }}Handler extends BaseCommandHandler
 {
 
     /**
-     * {{ $extra['@'] }}param {{ $commandName }}|BaseCommand $command
+     * {{ $extra['@'] }}param {{ $commandName }} $command
      *
      * {{ $extra['@'] }}return mixed
      */
-    public function handle(BaseCommand $command)
+    public function handle({{ $commandName }} $command)
     {
         //
     }

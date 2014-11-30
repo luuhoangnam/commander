@@ -14,9 +14,9 @@ namespace Nam\Commander;
 interface CommandValidator
 {
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
      * @return mixed
      */
-    public function validate(BaseCommand $command);
+    public function validate($command);
 }

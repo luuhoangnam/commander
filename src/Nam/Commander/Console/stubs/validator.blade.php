@@ -3,7 +3,6 @@
 namespace {{ $validatorNamespace }};
 
 use {{ $commandNamespace }}\{{ $commandName }};
-use Nam\Commander\BaseCommand;
 use Nam\Commander\BaseCommandValidator;
 
 /**
@@ -15,30 +14,17 @@ use Nam\Commander\BaseCommandValidator;
  */
 class {{ $commandName }}Validator extends BaseCommandValidator
 {
-
-    protected $rules = [
-@foreach($properties as $property)
-@if($property['rules'])
-        '{{ $property['name'] }}' => '{{ $property['rules'] }}',
-@endif
-@endforeach
-    ];
-
     /**
-     * {{ $extra['@'] }}param {{ $commandName }}|BaseCommand $command
-     *
-     * {{ $extra['@'] }}return mixed
+     * {{ $extra['@'] }}return array
      */
-    public function validate(BaseCommand $command)
+    public function rules()
     {
-        $this->setData([
-@foreach($properties as $property)
-@if($property['rules'])
-            '{{ $property['name'] }}' => $command->{{ camel_case("get {$property['name']}") }}(),
-@endif
-@endforeach
-        ]);
-
-        return $this->internalValidation();
+        return [
+            @foreach($properties as $property)
+            @if($property['rules'])
+                '{{ $property['name'] }}' => $command->{{ camel_case("get {$property['name']}") }}(),
+            @endif
+            @endforeach
+        ];
     }
 }
