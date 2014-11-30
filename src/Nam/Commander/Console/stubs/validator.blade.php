@@ -21,7 +21,7 @@ class {{ $commandName }}Validator extends BaseCommandValidator
         return [
             @foreach($properties as $property)
             @if($property['rules'])
-                '{{ $property['name'] }}' => $command->{{ camel_case("get {$property['name']}") }}(),
+                '{{ $property['name'] }}' => '{{ $property['rules'] }}',
             @endif
             @endforeach
         ];

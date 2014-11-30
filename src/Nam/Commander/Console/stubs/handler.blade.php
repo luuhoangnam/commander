@@ -3,7 +3,6 @@
 namespace {{ $handlerNamespace }};
 
 use {{ $commandNamespace }}\{{ $commandName }};
-use Nam\Commander\BaseCommandHandler;
 
 /**
  * Handler {{ $commandName }}
@@ -12,7 +11,7 @@ use Nam\Commander\BaseCommandHandler;
  * {{ $extra['@'] }}package {{ $handlerNamespace }}
  *
  */
-class {{ $commandName }}Handler extends BaseCommandHandler
+class {{ $commandName }}Handler
 {
 
     /**

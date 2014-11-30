@@ -1,6 +1,6 @@
 <?php
 
-namespace Nam\Commander\Events\Contracts;
+namespace Nam\Commander\Events;
 
 
 /**
