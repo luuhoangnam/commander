@@ -2,7 +2,6 @@
 
 namespace {{ $validatorNamespace }};
 
-use {{ $commandNamespace }}\{{ $commandName }};
 use Nam\Commander\BaseCommandValidator;
 
 /**
