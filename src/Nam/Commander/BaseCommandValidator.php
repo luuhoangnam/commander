@@ -56,7 +56,7 @@ abstract class BaseCommandValidator implements CommandValidator
      */
     public function validate($command)
     {
-        if (is_object($command)) {
+        if (! is_object($command)) {
             throw new CommandValidationException();
         }
 
