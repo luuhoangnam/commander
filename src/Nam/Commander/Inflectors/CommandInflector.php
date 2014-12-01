@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Nam\Commander\Inflectors;
-
-use Nam\Commander\BaseCommand;
 
 /**
  * Interface CommandInflector
@@ -15,17 +12,17 @@ use Nam\Commander\BaseCommand;
 interface CommandInflector
 {
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
      * @return string
      *
      */
-    public function getCommandHandler(BaseCommand $command);
+    public function getCommandHandler($command);
 
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
      * @return mixed
      */
-    public function getCommandValidator(BaseCommand $command);
+    public function getCommandValidator($command);
 }

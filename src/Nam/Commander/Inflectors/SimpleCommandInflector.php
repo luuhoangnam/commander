@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Nam\Commander\Inflectors;
 
 use Illuminate\Support\Str;
-use Nam\Commander\BaseCommand;
 use Nam\Commander\CommandHandler;
 use Nam\Commander\Exceptions\HandlerNotRegisteredException;
 use Nam\Commander\Exceptions\ValidatorNotRegisteredException;
@@ -21,12 +19,12 @@ class SimpleCommandInflector implements CommandInflector
 {
 
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
      * @throws HandlerNotRegisteredException
      * @return CommandHandler
      */
-    public function getCommandHandler(BaseCommand $command)
+    public function getCommandHandler($command)
     {
         $handler = $this->getComponent($command, 'Handler');
 
@@ -40,12 +38,11 @@ class SimpleCommandInflector implements CommandInflector
     }
 
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
-     * @throws ValidatorNotRegisteredException
      * @return mixed
      */
-    public function getCommandValidator(BaseCommand $command)
+    public function getCommandValidator($command)
     {
         $validator = $this->getComponent($command, 'Validator');
 
@@ -57,11 +54,11 @@ class SimpleCommandInflector implements CommandInflector
     }
 
     /**
-     * @param BaseCommand $command
+     * @param $command
      *
      * @return array
      */
-    protected function getCommandNamespace(BaseCommand $command)
+    protected function getCommandNamespace($command)
     {
         $commandName = (new ReflectionClass($command))->getName();
         $parts = explode('\\', $commandName); // => \Mbibi\Core\Commands\RegisterUserCommand
@@ -96,12 +93,12 @@ class SimpleCommandInflector implements CommandInflector
     }
 
     /**
-     * @param BaseCommand $command
-     * @param string      $component
+     * @param        $command
+     * @param string $component
      *
      * @return string
      */
-    protected function getComponent(BaseCommand $command, $component = 'Handler')
+    protected function getComponent($command, $component = 'Handler')
     {
         $reflectionClass = (new ReflectionClass($command));
         $commandName = $reflectionClass->getName();
