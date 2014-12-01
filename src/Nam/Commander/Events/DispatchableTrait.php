@@ -37,4 +37,9 @@ trait DispatchableTrait
     {
         $this->dispatcher = $dispatcher;
     }
+
+    public function dispatch()
+    {
+        $this->getDispatcher()->dispatch($this->releaseEvents());
+    }
 }
