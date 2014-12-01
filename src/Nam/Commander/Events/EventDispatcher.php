@@ -3,7 +3,7 @@
 
 namespace Nam\Commander\Events;
 
-use Nam\Commander\Events\Contracts\Dispatcher as DispatcherInterface;
+use Nam\Commander\Events\Dispatcher as DispatcherInterface;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Log\Writer;
 

@@ -9,7 +9,9 @@
  */
 
 return [
-    'Nam.Core.Commands.Events.*' => [
-        'Nam\Core\Commands\Listeners\VarDumpNotifier',
+    'listeners' => [
+        'Nam.Core.Events.*' => [
+            'Nam\Core\Commands\Listeners\VarDumpNotifier',
+        ],
     ],
 ];

@@ -93,11 +93,17 @@ class CommanderServiceProvider extends ServiceProvider
      */
     protected function bootEventListeners()
     {
-        $events = $this->app['config']['commander::event'];
+        $events = $this->app['config']['commander::event.listeners'];
 
-        foreach ($events as $event => $listener) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $this->app['events']->listen($event, $listener);
+        foreach ($events as $event => $listeners) {
+            if (! is_array($listeners)) {
+                $listeners = [ $listeners ];
+            }
+
+            foreach ($listeners as $listener) {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $this->app['events']->listen($event, $listener);
+            }
         }
     }
 }
