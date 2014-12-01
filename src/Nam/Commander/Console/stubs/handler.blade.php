@@ -3,6 +3,7 @@
 namespace {{ $handlerNamespace }};
 
 use {{ $commandNamespace }}\{{ $commandName }};
+use Nam\Commander\CommandHandler;
 
 /**
  * Handler {{ $commandName }}
@@ -11,7 +12,7 @@ use {{ $commandNamespace }}\{{ $commandName }};
  * {{ $extra['@'] }}package {{ $handlerNamespace }}
  *
  */
-class {{ $commandName }}Handler
+class {{ $commandName }}Handler implements CommandHandler
 {
 
     /**
