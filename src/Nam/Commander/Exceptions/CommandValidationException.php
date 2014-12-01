@@ -45,7 +45,7 @@ class CommandValidationException extends RuntimeException implements MessageProv
     /**
      * @param MessageBag $messageBag
      */
-    public function __construct(MessageBag $messageBag)
+    public function __construct(MessageBag $messageBag = null)
     {
         $this->messageBag = $messageBag;
     }
